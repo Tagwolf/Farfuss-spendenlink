@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <title>Spendenaufruf für Farfuss</title>
+  <style>
+    body {
+      font-family: "Segoe UI", Arial, sans-serif;
+      background: #f4f6f9;
+      color: #333;
+      text-align: center;
+      padding: 50px;
+    }
+
+    .container {
+      max-width: 600px;
+      margin: auto;
+      background: #fff;
+      border-radius: 16px;
+      box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+      padding: 40px;
+      animation: fadeIn 1.2s ease;
+      position: relative;
+      z-index: 1;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    h1 {
+      font-size: 2em;
+      margin-bottom: 10px;
+      color: #1d3557;
+    }
+
+    p {
+      font-size: 1.1em;
+      margin-bottom: 25px;
+      color: #444;
+    }
+
+    .progress-container {
+      background: #e9ecef;
+      border-radius: 20px;
+      overflow: hidden;
+      height: 28px;
+      margin: 20px 0;
+      position: relative;
+    }
+
+    .progress-bar {
+      height: 100%;
+      width: 0;
+      background: linear-gradient(90deg, #457b9d, #1d3557);
+      text-align: right;
+      padding-right: 10px;
+      color: #fff;
+      font-size: 0.9em;
+      font-weight: bold;
+      border-radius: 20px 0 0 20px;
+      transition: width 1.5s ease;
+    }
+
+    .amount {
+      font-size: 1.1em;
+      font-weight: bold;
+      margin-top: 10px;
+      color: #1d3557;
+    }
+
+    .confirm-box {
+      margin-top: 25px;
+    }
+
+    .confirm-btn {
+      margin: 5px;
+      padding: 10px 25px;
+      border: none;
+      border-radius: 25px;
+      font-size: 1em;
+      cursor: pointer;
+      transition: transform 0.2s, background 0.3s;
+    }
+
+    .confirm-btn:hover {
+      transform: scale(1.05);
+    }
+
+    .yes-btn {
+      background: #06d6a0;
+      color: white;
+    }
+
+    .yes-btn:hover {
+      background: #05c293;
+    }
+
+    .no-btn {
+      background: #e63946;
+      color: white;
+    }
+
+    .no-btn:hover {
+      background: #d62839;
+    }
+
+    .message {
+      margin-top: 15px;
+      font-size: 1.1em;
+      font-weight: bold;
+      display: none;
+    }
+
+    .donate-btn {
+      display: inline-block;
+      margin-top: 25px;
+      padding: 14px 35px;
+      background: #0070ba; /* PayPal blau */
+      color: #fff;
+      font-size: 1.1em;
+      font-weight: 600;
+      text-decoration: none;
+      border-radius: 30px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      transition: background 0.3s, transform 0.2s;
+      pointer-events: none;
+      opacity: 0.5;
+    }
+
+    .donate-btn.active {
+      pointer-events: auto;
+      opacity: 1;
+    }
+
+    .donate-btn:hover {
+      background: #005ea6;
+      transform: translateY(-2px);
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Spendenaufruf für Farfuss</h1>
+    <p>Unser Freund <strong>Farfuss</strong> wurde gescammt und hat <strong>45.000.000 €</strong> im Spiel verloren.<br>
+    Hilf ihm dabei, dieses Ziel wieder zu erreichen!</p>
+
+    <!-- Fortschrittsanzeige -->
+    <div class="progress-container">
+      <div class="progress-bar" id="progress-bar">0%</div>
+    </div>
+    <div class="amount"><span id="current">0</span> / 45.000.000 €</div>
+
+    <!-- Bestätigungsfrage -->
+    <div class="confirm-box">
+      <p>Willst du wirklich uns helfen?</p>
+      <button class="confirm-btn yes-btn" onclick="activateDonate(true)">Ja 💖</button>
+      <button class="confirm-btn no-btn" onclick="activateDonate(false)">Nein 😢</button>
+      <div class="message" id="message"></div>
+    </div>
+
+    <!-- PayPal Button -->
+    <a id="donate-btn" href="https://www.paypal.com/donate" target="_blank" class="donate-btn">Jetzt mit PayPal spenden</a>
+  </div>
+
+  <script>
+    // Fortschritt
+    const ziel = 45000000;   // Zielsumme
+    const aktuell = 0;       // Startwert
+
+    const prozent = Math.min((aktuell / ziel) * 100, 100);
+    const bar = document.getElementById("progress-bar");
+    const currentText = document.getElementById("current");
+
+    setTimeout(() => {
+      bar.style.width = prozent + "%";
+      bar.textContent = Math.round(prozent) + "%";
+      currentText.textContent = aktuell.toLocaleString("de-DE");
+    }, 500);
+
+    // Bestätigung für Spenden-Button
+    function activateDonate(yes) {
+      const donateBtn = document.getElementById("donate-btn");
+      const msg = document.getElementById("message");
+
+      if (yes) {
+        msg.textContent = "Du bist ein Schatz 💖 Ich küsse dein Herz!";
+        msg.style.color = "#06d6a0";
+        msg.style.display = "block";
+        donateBtn.classList.add("active");
+      } else {
+        msg.textContent = "Schade 😢";
+        msg.style.color = "#e63946";
+        msg.style.display = "block";
+        donateBtn.classList.remove("active");
+      }
+    }
+  </script>
+</body>
+  </html>
